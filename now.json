@@ -1,0 +1,17 @@
+{
+    "features": {
+        "cloud": "v1"
+    },
+    "version": 1,
+    "type": "docker"
+    
+    "cloud-repo-tools": {
+    "test": {
+      "app": {
+        "msg": "Hello, world!"
+      }
+    },
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+    }
+}
