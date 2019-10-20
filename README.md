@@ -1,5 +1,5 @@
 # Derotate
-Web App & API that understands if/how an image is rotated and "derotates" it, built with [fastai v1 library](https://docs.fast.ai/) and using [fastai course](https://course.fast.ai/). It can be tested [here](derotate.appspot.com)
+Web App & API that understands if/how an image is rotated and "derotates" it, built with [fastai v1 library](https://docs.fast.ai/) and using [fastai course](https://course.fast.ai/). It can be tested [here](http://derotate.appspot.com/)
 
 ## Motivation
 When I take pictures with my phone, the auto-rotate feature often doesn't work properly and my pictures end up having the bad orientation. This is of course an issue afterwards when looking at the pictures, but more importantly, the fact that different images can get different orientations is an important issue when building an automated image processing / computer vision pipelines. For example, if you use a phone as a dashcam, the images may have different orientation depending on how the user sets up his phone.
