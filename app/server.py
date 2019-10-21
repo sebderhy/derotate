@@ -74,8 +74,6 @@ async def analyze(request):
         'rotated270': 90,
         'straight': 0
     }
-    if pred_str=='rotated90':
-        print("COUCOU")
     img = img.rotate(angle_to_rotate[pred_str])
     img.save('app/static/tmp.jpg')
     return JSONResponse({'result': str(prediction)})
