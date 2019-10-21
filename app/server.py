@@ -12,7 +12,6 @@ import base64
 import numpy as np
 
 export_file_url = 'https://www.dropbox.com/s/cfmqp0sxfkr0gxc/isImgRotated-dn121-sz128.pkl?dl=1'
-# export_file_name = 'models/isImgRotated-rn18-sz128.pkl'
 export_file_name = 'models/isImgRotated-dn121-sz128.pkl'
 
 path = Path(__file__).parent
