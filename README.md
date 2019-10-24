@@ -28,3 +28,5 @@ The web app that does the inference is based on the Google App Engine starter pa
 One notable difference compared to the starter web app is that this one also displays back the derotated model. The web app code could therefore be useful also for semantic segmentation, super-resolution, etc...   
 
 Everything is packaged in a docker with requirement.txt, so you can push it to any docker hosted cloud service.
+
+![img_webapp](https://github.com/sebderhy/derotate/blob/master/test_images/derotate_capture.PNG "Webapp Screenshot")
