@@ -21,7 +21,7 @@ function analyze() {
   el("analyze-button").innerHTML = "Analyzing...";
   var xhr = new XMLHttpRequest();
   var loc = window.location;
-  xhr.open("POST", `${loc.protocol}//${loc.hostname}:${loc.port}/analyze`,
+  xhr.open("POST", `${loc.protocol}//${loc.hostname}:${loc.port}/img2class/`,
     true);
   xhr.onerror = function() {
     alert(xhr.responseText);
@@ -30,8 +30,8 @@ function analyze() {
     if (this.readyState === 4) {
       var response = JSON.parse(e.target.responseText);
       el("result-label").innerHTML = `Image was ${response["result"]}`;
-      el("image-derotated").className=''
-      el("image-derotated").src = 'static/tmp.jpg';
+      //el("image-derotated").className=''
+      //el("image-derotated").src = 'static/tmp.jpg';
     }
     el("analyze-button").innerHTML = "Analyze";
   };

@@ -1,42 +1,39 @@
 import aiohttp
+from fastapi import FastAPI, File, UploadFile
 import asyncio
 import uvicorn
-from fastai import *
-from fastai.vision import *
+from fastai2.vision.all import *
 from io import BytesIO
 from starlette.applications import Starlette
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import HTMLResponse, JSONResponse
+from starlette.responses import HTMLResponse, JSONResponse, FileResponse
 from starlette.staticfiles import StaticFiles
-import base64
-import numpy as np
+import tempfile
 
-export_file_url = 'https://www.dropbox.com/s/cfmqp0sxfkr0gxc/isImgRotated-dn121-sz128.pkl?dl=1'
-export_file_name = 'models/isImgRotated-dn121-sz128.pkl'
+export_file_url = '' ## TODO: Put model on GDrive and put the DL URL Here
+export_file_name = 'models/is-img-rotated.pkl'
 
 path = Path(__file__).parent
 
-app = Starlette()
+app = FastAPI()
 app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Requested-With', 'Content-Type'])
 app.mount('/static', StaticFiles(directory='app/static'))
 
 
 async def download_file(url, dest):
     if dest.exists(): return
-    print('Downloading model. This may take a 5 to 10 minutes...')
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             data = await response.read()
             with open(dest, 'wb') as f:
                 f.write(data)
-    print('Finished downloading! The app should now start')
 
 
-
-async def setup_learner():
-    await download_file(export_file_url, path / export_file_name)
+async def async_setup_learner():
+    # await download_file(export_file_url, path / export_file_name)
     try:
-        learn = load_learner(path, export_file_name)
+        learn = torch.load(path/export_file_name, map_location=torch.device('cpu'))
+        learn.dls.device = 'cpu'
         return learn
     except RuntimeError as e:
         if len(e.args) > 0 and 'CPU-only machine' in e.args[0]:
@@ -46,9 +43,8 @@ async def setup_learner():
         else:
             raise
 
-
 loop = asyncio.get_event_loop()
-tasks = [asyncio.ensure_future(setup_learner())]
+tasks = [asyncio.ensure_future(async_setup_learner())]
 learn = loop.run_until_complete(asyncio.gather(*tasks))[0]
 loop.close()
 
@@ -59,25 +55,45 @@ async def homepage(request):
     return HTMLResponse(html_file.open().read())
 
 
-@app.route('/analyze', methods=['POST'])
-async def analyze(request):
-    img_data = await request.form()
-    img_bytes = await (img_data['file'].read())
-    img = open_image(BytesIO(img_bytes))
-    prediction = learn.predict(img)[0]
-    pred_str = str(prediction)
+@app.post("/img2class/")
+def img2class(file: UploadFile = File(...)):
+    img_bytes = (file.file.read())
+    pred = learn.predict(img_bytes)
+    return JSONResponse({
+          'result': str(pred[0])
+    })
 
-    angle_to_rotate = {
-        'rotated90': 270,
-        'rotated180': 180,
-        'rotated270': 90,
-        'straight': 0
-    }
-    img = img.rotate(angle_to_rotate[pred_str])
-    img.save('app/static/tmp.jpg')
-    return JSONResponse({'result': str(prediction)})
+
+def image_to_byte_array(image:Image):
+  imgByteArr = io.BytesIO()
+  image.save(imgByteArr, format=image.format)
+  imgByteArr = imgByteArr.getvalue()
+  return imgByteArr
+
+
+def derotate_img(pred, img_pil: Image):
+    img_pil_out = img_pil
+    rotation_state = str(pred[0])
+    if(rotation_state=='rotated180'): img_pil_out = img_pil.rotate(180)
+    if(rotation_state=='rotated90'): img_pil_out = img_pil.rotate(-90)
+    if(rotation_state=='rotated270'): img_pil_out = img_pil.rotate(90)
+    img_pil_out.format = img_pil.format
+    return img_pil_out
+
+
+@app.post("/img2img/")
+def img2img(file: UploadFile = File(...)):
+    img_bytes = (file.file.read())
+    pred = learn.predict(img_bytes)
+    img_pil = Image.open(BytesIO(img_bytes))
+    img_pil_out = derotate_img(img_pil)
+    out_img_bytes = image_to_byte_array(img_pil_out)
+    with tempfile.NamedTemporaryFile(mode="w+b", suffix=".png", delete=False) as FOUT:
+        FOUT.write(out_img_bytes)
+        return FileResponse(FOUT.name, media_type="image/png")
 
 
 if __name__ == '__main__':
     if 'serve' in sys.argv:
-        uvicorn.run(app=app, host='0.0.0.0', port=8080, log_level="info")
+        uvicorn.run(app=app, host='0.0.0.0', port=5000, log_level="info")
+        
