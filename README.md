@@ -6,11 +6,11 @@ When I take pictures with my phone, the auto-rotate feature often doesn't work p
 
 ## Example
 For example, if you give the model the following image:
-![img_input](https://github.com/sebderhy/derotate/blob/master/images/img_test_2.jpg "Rotated image") 
+![img_input](https://github.com/sebderhy/derotate/blob/master/images/test_img_2.png "Rotated image") 
 
 Then the resulting image is:
 
-![img_output](https://github.com/sebderhy/derotate/blob/master/images/img_test.jpg "Derotated image")
+![img_output](https://github.com/sebderhy/derotate/blob/master/images/test_img.png "Derotated image")
 
 ## How to use it?
 The web-app is straightforward to use, and python code snippet of API calls can be found in the [test_api notebook](test_api.ipynb). The API can be used both as an Image-to-Class or as an Image-to-Image API.
