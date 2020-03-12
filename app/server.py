@@ -86,7 +86,7 @@ def img2img(file: UploadFile = File(...)):
     img_bytes = (file.file.read())
     pred = learn.predict(img_bytes)
     img_pil = Image.open(BytesIO(img_bytes))
-    img_pil_out = derotate_img(img_pil)
+    img_pil_out = derotate_img(pred, img_pil)
     out_img_bytes = image_to_byte_array(img_pil_out)
     with tempfile.NamedTemporaryFile(mode="w+b", suffix=".png", delete=False) as FOUT:
         FOUT.write(out_img_bytes)
