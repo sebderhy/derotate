@@ -7,6 +7,8 @@ COPY requirements.txt .
 
 RUN pip install --upgrade -r requirements.txt
 
+RUN pip freeze
+
 COPY app app/
 
 RUN python app/server.py
