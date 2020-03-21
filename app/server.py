@@ -95,5 +95,5 @@ def img2img(file: UploadFile = File(...)):
 
 if __name__ == '__main__':
     if 'serve' in sys.argv:
-        uvicorn.run(app=app, host='0.0.0.0', port=8080, log_level="info")
+        uvicorn.run(app=app, host='0.0.0.0', port=80, log_level="info")
         
