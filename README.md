@@ -1,5 +1,5 @@
 # Derotate
-[Mobile app](https://drive.google.com/open?id=1UNQbxz8WtLMVVRjzhBN_1lzKLpgbJ504), [API](test_api.ipynb), and [Web App](http://54.145.131.146/), and  that understands if/how an image is rotated and "derotates" it. The app was built with [fastai v2 library](https://dev.fast.ai/) and the [fastai course](https://course.fast.ai/). Hopefully, this repo can also be useful for other people who wish to deploy fastai2 models, since it features:
+[Mobile app](https://drive.google.com/open?id=1UNQbxz8WtLMVVRjzhBN_1lzKLpgbJ504), [API](test_api.ipynb), and [Web App](http://54.145.131.146/), that understands if/how an image is rotated and "derotates" it. The app was built with [fastai v2 library](https://dev.fast.ai/) and the [fastai course](https://course.fast.ai/). Hopefully, this repo can also be useful for other people who wish to deploy fastai2 models, since it features:
 * A back-end API that handles both image-to-class and image-to-image interfaces
 * A [jupyter notebook](test_api.ipynb) that shows how to call the back-end APIs
 * A mobile app (written in Flutter, which generates Android, iOS, and web apps from a single code base)
