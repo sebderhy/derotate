@@ -3,7 +3,7 @@ Deep learning deployment that understands if/how an image is rotated and "derota
 * A back-end API using [FastAPI](https://fastapi.tiangolo.com/tutorial/body/) that handles both image-to-class and image-to-image interfaces
 * A [jupyter notebook](test_api.ipynb) that shows how to call the back-end APIs
 * A [Mobile app](https://drive.google.com/open?id=1UNQbxz8WtLMVVRjzhBN_1lzKLpgbJ504) based on  based on [this repo](https://github.com/dnmanveet/Fruit_classifier_app), and written in [Flutter](https://github.com/flutter/flutter). Flutter is a powerful framework for developing mobile apps that can compile into Android, iOS, and web apps from a single code base. However, web works pretty bad from my experience
-* And of course, a [Web App](http://54.145.131.146/) similar to all the previous fastai webapps based on Starlette and Uvicorn that enables to upload an image and know how it was rotated (image-to-image are not supported yet, because of my lack of JS skills...)
+* And of course, a [Web App](http://derotate.com/) similar to all the previous fastai webapps based on Starlette and Uvicorn that enables to upload an image and know how it was rotated (image-to-image are not supported yet, because of my lack of JS skills...)
 
 NOTE: The model was trained on the [CAMVID dataset](http://mi.eng.cam.ac.uk/research/projects/VideoRec/CamVid/), so don't expect it to work well on pictures that are not car frontview pictures.
 
