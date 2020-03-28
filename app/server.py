@@ -63,13 +63,23 @@ def test_api():
 
 
 @app.post("/img2class/")
-def img2class(image: UploadFile = File(...)):
-    # img_bytes = (image.read())
-    img_bytes = image
+def img2class(file: UploadFile = File(...)):
+    img_bytes = (file.file.read())
     pred = learn.predict(img_bytes)
     return JSONResponse({
-          'result': str(pred[0])
+          'result': str(pred[0]),
     })
+
+
+# @app.post("/rapid_img2class/")
+# def rapid_img2class(file: bytes):
+#     img_bytes = file
+#     # pred = learn.predict(img_bytes)
+#     return JSONResponse({
+#         #   'result': str(pred[0]),
+#           "debug-file": str(type(file))
+#         #   "debug-img": str(type(img_bytes))
+#     })
 
 
 def image_to_byte_array(image:Image):
