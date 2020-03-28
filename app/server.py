@@ -63,8 +63,8 @@ def test_api():
 
 
 @app.post("/img2class/")
-def img2class(file: UploadFile = File(...)):
-    img_bytes = (file.file.read())
+def img2class(image: UploadFile = File(...)):
+    img_bytes = (image.read())
     pred = learn.predict(img_bytes)
     return JSONResponse({
           'result': str(pred[0])
