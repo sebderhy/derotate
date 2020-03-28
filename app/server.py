@@ -55,6 +55,13 @@ async def homepage(request):
     return HTMLResponse(html_file.open().read())
 
 
+@app.get("/test_api/")
+def test_api():
+    return JSONResponse({
+          'result': "It just works!"
+    })
+
+
 @app.post("/img2class/")
 def img2class(file: UploadFile = File(...)):
     img_bytes = (file.file.read())

@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
     var length = await imageFile.length();
 
-    String base = "http://54.145.131.146";
+    String base = "http://derotate.com";
 
     var uri = isImg2Img
         ? Uri.parse(base + '/img2img/')
