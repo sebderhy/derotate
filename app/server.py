@@ -16,7 +16,8 @@ export_file_name = 'models/is-img-rotated.pkl'
 path = Path(__file__).parent
 
 app = FastAPI()
-app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_headers=['X-Requested-With', 'Content-Type'])
+app.add_middleware(CORSMiddleware, allow_origins=['*'], 
+        allow_headers=['X-Requested-With', 'Content-Type','x-rapidapi-host','x-rapidapi-key'])
 app.mount('/static', StaticFiles(directory='app/static'))
 
 
