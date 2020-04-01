@@ -62,13 +62,24 @@ def test_api():
     })
 
 
-@app.post("/img2class/")
-def img2class(file: UploadFile = File(...)):
-    img_bytes = (file.file.read())
+def img2class_do(img_bytes: bytes):
     pred = learn.predict(img_bytes)
     return JSONResponse({
           'result': str(pred[0]),
     })
+
+
+@app.post("/img2class/")
+def img2class(file: UploadFile = File(...)):
+    img_bytes = (file.file.read())
+    return img2class_do(img_bytes)
+
+
+@app.post("/urlimg2class/")
+def urlimg2class(url: str):
+    response = requests.get(url)
+    img_bytes = response.content
+    return img2class_do(img_bytes)
 
 
 # @app.post("/rapid_img2class/")
@@ -99,9 +110,7 @@ def derotate_img(pred, img_pil: Image):
     return img_pil_out
 
 
-@app.post("/img2img/")
-def img2img(file: UploadFile = File(...)):
-    img_bytes = (file.file.read())
+def img2img_do(img_bytes):
     pred = learn.predict(img_bytes)
     img_pil = Image.open(BytesIO(img_bytes))
     img_pil_out = derotate_img(pred, img_pil)
@@ -110,6 +119,17 @@ def img2img(file: UploadFile = File(...)):
         FOUT.write(out_img_bytes)
         return FileResponse(FOUT.name, media_type="image/png")
 
+@app.post("/img2img/")
+def img2img(file: UploadFile = File(...)):
+    img_bytes = (file.file.read())
+    return img2img_do(img_bytes)
+
+
+@app.post("/urlimg2img/")
+def urlimg2class(url: str):
+    response = requests.get(url)
+    img_bytes = response.content
+    return img2img_do(img_bytes)
 
 if __name__ == '__main__':
     if 'serve' in sys.argv:
