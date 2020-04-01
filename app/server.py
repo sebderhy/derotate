@@ -126,7 +126,7 @@ def img2img(file: UploadFile = File(...)):
 
 
 @app.post("/urlimg2img/")
-def urlimg2class(url: str):
+def urlimg2img(url: str):
     response = requests.get(url)
     img_bytes = response.content
     return img2img_do(img_bytes)
